@@ -1,0 +1,9 @@
+extends layout
+
+block content
+
+    div#map-canvas.pull-left
+    ul.pull-right
+    each file in files
+        li.pull-left
+            img.points(src="/images/#{file.file}" data-file="#{file.file}" data-coords="#{file.coords}" width="100px" height="100px")

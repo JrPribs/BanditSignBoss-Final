@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet' href='http://bootswatch.com/yeti/bootstrap.min.css')
+    script(src='http://code.jquery.com/jquery-1.11.0.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js')
+    if scripts
+        for s in scripts
+            script(src=s)
+  body
+    nav.navbar.navbar-default.navbar-fixed-top
+        a.active.btn.btn-default(href='/') Home
+        a.btn.btn-default(href='/about') About
+        a.btn.btn-default(href='/register') Register
+        a.btn.btn-default(href='/uploads') Upload Photos
+
+    block content
+
+    footer
+        p Created by Clockwork Development
