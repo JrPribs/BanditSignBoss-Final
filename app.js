@@ -6,6 +6,7 @@ var multer = require('multer');
 
 var routes = require('./routes/index');
 var uploads = require('./routes/uploads');
+var dashboard = require('./routes/dashboard');
 var app = express();
 
 // view engine setup
@@ -38,7 +39,7 @@ app.use(stormpath.init(app, {
 
 app.use('/', routes);
 app.use('/uploads', uploads);
-
+app.use('/dashboard', dashboard);
 // error handlers
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
