@@ -11,10 +11,16 @@ html
             script(src=s)
   body
     nav.navbar.navbar-default.navbar-fixed-top
-        a.active.btn.btn-default(href='/') Home
-        a.btn.btn-default(href='/about') About
-        a.btn.btn-default(href='/register') Register
-        a.btn.btn-default(href='/uploads') Upload Photos
+        if user
+            a.btn.btn-default(href='/logout') log Out
+            a.btn.btn-default(href='/dashboard') My Account
+            a.btn.btn-default(href='/uploads') Upload Photos
+        else
+            a.active.btn.btn-default(href='/') Home
+            a.btn.btn-default(href='/about') About
+            a.btn.btn-default(href='/register') Register
+            a.btn.btn-default(href='/uploads') Upload Photos
+
 
     block content
 

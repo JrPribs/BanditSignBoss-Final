@@ -3,7 +3,10 @@ extends layout
 block content
 	h1= title
 	form#fileUpload(method="post" action="/uploads" enctype="multipart/form-data")
-		label(for="payload") Select a file to upload:
-		input#payload(type="file" name="myFile" accept="image/*" multiple)
+		label(for="imageFiles") Select a file to upload:
+		input#imageFiles(type="file" name="imageFiles" accept="image/*" multiple)
+		br
+		div#selectedFiles
 		br
 		button#upload Upload
+	script(src="/javascripts/uploadPreview.js")

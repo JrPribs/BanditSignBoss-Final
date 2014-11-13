@@ -11,8 +11,9 @@ router.get('/', stormpath.loginRequired, function(req, res) {
     });
 });
 
-router.post("/", function(req, res, next) {
+router.post("/", stormpath.loginRequired, function(req, res, next) {
     if (req.files) {
+        console.log(req);
         console.log(util.inspect(req.files));
         if (req.files.size === 0) {
             return next(new Error("Why didn't you select a file?"));
@@ -101,7 +102,7 @@ router.post("/", function(req, res, next) {
         }
 
 
-        gatherImages(req.files.myFile, function(uploads) {
+        gatherImages(req.files.imageFiles, function(uploads) {
             processImages(uploads, function(finalImages) {
                 res.render("uploadMapPage", {
                     title: "File(s) Uploaded Successfully!",

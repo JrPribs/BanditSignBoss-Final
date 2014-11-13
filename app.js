@@ -27,6 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use(stormpath.init(app, {
+    apiKeyFile: '/Users/jpribesh/.stormpath/apiKey.properties',
+    application: 'https://api.stormpath.com/v1/applications/5OEXbG5BaE5SJQ5bGKHKeD',
+    secretKey: '2gYxQyynHmlwPsghFwqDjdff3hIUgh778onj',
 	enableUsername: true,
 	requireUsername: true,
 	sessionDuration: 1000 * 60 * 20,
