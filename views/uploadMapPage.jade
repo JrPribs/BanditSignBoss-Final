@@ -7,3 +7,4 @@ block content
     each file in files
         li.pull-left
             img.points(src="/images/#{file.file}" data-file="#{file.file}" data-coords="#{file.coords}" width="100px" height="100px")
+            div #{file.caption}

@@ -27,11 +27,14 @@ router.post("/", stormpath.loginRequired, function(req, res, next) {
 
                 fs.exists(file.path, function(exists) {
                     if (exists) {
+                        var name = req.body[file.originalname];
+                        console.log(name);
                         var path = file.path;
                         var upFile = file.name;
                         uploads.push({
                             file: upFile,
-                            imgPath: path
+                            imgPath: path,
+                            caption: name
                         });
                         count++;
                     }
