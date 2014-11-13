@@ -22,7 +22,7 @@ function init() {
 }
 
 function handleFileSelect(e) {
-    if (e.target.files.length !== 0) {
+    if (e.target.files.length > 0) {
         document.querySelector('#upload').disabled = false;
     }
     if (!e.target.files || !window.FileReader) return;
