@@ -4,7 +4,7 @@ var path = require('path');
 var logger = require('morgan');
 var multer = require('multer');
 
-var routes = require('./routes/index');
+var index = require('./routes/index');
 var uploads = require('./routes/uploads');
 var dashboard = require('./routes/dashboard');
 var app = express();
@@ -37,9 +37,10 @@ app.use(stormpath.init(app, {
 	cache: 'memory'
 }));
 
-app.use('/', routes);
+app.use('/', index);
 app.use('/uploads', uploads);
 app.use('/dashboard', dashboard);
+
 // error handlers
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

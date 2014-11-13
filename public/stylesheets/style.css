@@ -28,3 +28,9 @@ footer {
 li.pull-left {
     list-style: none;
 }
+
+/* upload page */
+#selectedFiles label {
+padding: 6px 5px 3px 5px;
+border: 1px solid #000;
+}
