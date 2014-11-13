@@ -12,14 +12,13 @@ html
   body
     nav.navbar.navbar-default.navbar-fixed-top
         if user
-            a.btn.btn-default(href='/logout') log Out
+            a.btn.btn-default(href='/logout') Log Out
             a.btn.btn-default(href='/dashboard') My Account
             a.btn.btn-default(href='/uploads') Upload Photos
         else
-            a.active.btn.btn-default(href='/') Home
-            a.btn.btn-default(href='/about') About
+            a.btn.btn-default(href='/login') Login
             a.btn.btn-default(href='/register') Register
-            a.btn.btn-default(href='/uploads') Upload Photos
+            a.active.btn.btn-default(href='/') Home
 
 
     block content

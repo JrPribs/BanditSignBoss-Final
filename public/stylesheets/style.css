@@ -8,6 +8,8 @@ a {
 .navbar .btn {
     margin: 5px 5px 5px 0;
     float: right;
+    border-radius: 3px 3px;
+    border: 1px solid #000;
 }
 .navbar {
     padding-right: 1em;
@@ -23,6 +25,6 @@ footer {
     margin: 0;
     padding: 0;
 }
-li.pull-left{
-	list-style: none;
+li.pull-left {
+    list-style: none;
 }
