@@ -1,13 +1,16 @@
 extends layout
 
 block content
-	h1 #{campaign.title} Details
+	div.row
+		h1 #{campaign.title} Details
+			a#upload-button.btn(href="/uploads/#{campaignId}") Upload Photo(s)
 	div.well
 		ul.list-group
 			li.list-group-item.h3 Campaign created by: #{campaign.author}
 			li.list-group-item.h3 Photos currently in campaign: #{photoCount}
-		for photo in campaign.photos
-			li.pull-left
-					div.thumbnail
-						img.points(src="/images/#{photo.file}" width="200px")
-						div #{photo.caption}
+		if campaign.photos
+			for photo in campaign.photos
+				li.pull-left
+						div.thumbnail
+							img.points(src="/images/#{photo.file}" width="200px")
+							div #{photo.caption}
