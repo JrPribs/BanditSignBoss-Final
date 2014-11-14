@@ -20,6 +20,9 @@ block content
             div#collapseTwo.panel-collapse.collapse.in(role="tabpanel" aria-labelledby="headingTwo")
                 div.panel-body
                     ul.list-group
-                    each campaign in campaigns
-                        li.list-group-item
-                            a(href='/campaign/#{campaign.id}' ) #{campaign.title}
+                    if campaigns
+                        each campaign in campaigns
+                            li.list-group-item
+                                a(href='/campaign/#{campaign.id}' ) #{campaign.title}
+                    else
+                        h2 You do not currently have any campaigns!

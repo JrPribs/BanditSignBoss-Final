@@ -18,8 +18,8 @@ router.post('/', stormpath.loginRequired, function(req, res) {
             console.log("Data didn't save! :" + err);
         } else {
             var campaignId = newCampaign.key();
-            camps.orderByChild("key").equalTo(campaignId).on("value", function(snapshot) {
-
+            var thisCampaign = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user + '/campaigns/' + campaignId);
+            thisCampaign.on("value", function(snapshot) {
                 res.render("uploadPage", {
                     title: req.body.campaignTitle,
                     campaign: snapshot,
