@@ -41,6 +41,7 @@ app.use(stormpath.init(app, {
 }));
 
 app.use('/', index);
+app.use('/upload', uploads);
 app.use('/dashboard', dashboard);
 app.use('/newCampaign', newCampaign);
 app.use('/campaigns', campaigns);

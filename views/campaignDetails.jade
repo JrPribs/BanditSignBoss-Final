@@ -4,7 +4,7 @@ block content
 	div.page-header
 		h1 #{campaign.title} Details
 			div.pull-right
-				a.campaign-button.btn(href="/campaign/#{campaignId}/upload") Upload Photo(s)
+				a.campaign-button.btn(href="/upload/#{campaignId}") Upload Photo(s)
 				if campaign.photos
 					a.campaign-button.btn(href="/campaign/#{campaignId}/view-map") View Campaign Map
 	div.well

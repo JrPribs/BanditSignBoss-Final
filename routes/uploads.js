@@ -7,16 +7,15 @@ var stormpath = require('express-stormpath');
 var _ = require('lodash')
 var Firebase = require('firebase');
 
-router.get('/:campaignId/upload', stormpath.loginRequired, function(req, res) {
-    var campaign = req.param('campaign');
+router.get('/:campaignId', stormpath.loginRequired, function(req, res) {
+    var campaignId = req.param('campaignId');
     res.render("uploadPage", {
         title: "Bandit Sign Boss Photo Uploader",
-        campaign: campaign
+        campaignId: campaignId
     });
 });
 
-router.post("/:campaignId/upload", stormpath.loginRequired, function(req, res, next) {
-
+router.post("/:campaignId", stormpath.loginRequired, function(req, res, next) {
     function gatherImages(files, callback) {
 
         //accept single image upload
@@ -114,12 +113,12 @@ router.post("/:campaignId/upload", stormpath.loginRequired, function(req, res, n
         if (req.files.size === 0) {
             return next(new Error("Why didn't you select a file?"));
         }
-
         gatherImages(req.files.imageFiles, function(uploads) {
             processImages(uploads, function(finalImages) {
-                var campaign = req.param('campaignId');
+                var campaignId = req.param('campaignId');
+                console.log(campaignId);
                 var user = res.locals.user.username;
-                var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user + '/campaigns/' + campaign);
+                var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user + '/campaigns/' + campaignId);
                 var campaignPhotos = campaignRef.child('photos');
                 var count = 0;
                 finalImages.forEach(function(image) {
@@ -129,6 +128,7 @@ router.post("/:campaignId/upload", stormpath.loginRequired, function(req, res, n
                         res.render("uploadMapPage", {
                             title: "File(s) Uploaded Successfully!",
                             files: finalImages,
+                            campaignId: campaignId,
                             scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
                         });
                     }
