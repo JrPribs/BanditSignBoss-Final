@@ -2,6 +2,7 @@ var selDiv = "";
 
 document.addEventListener("DOMContentLoaded", init, false);
 
+
 function thumbnailContainer(thumbnail, caption) {
     caption = caption || ''
     return ['<div class="col-xs-4 col-md-3">',
@@ -19,6 +20,8 @@ function thumbnailContainer(thumbnail, caption) {
 function init() {
     document.querySelector('#imageFiles').addEventListener('change', handleFileSelect, false);
     selDiv = document.querySelector("#selectedFiles");
+    document.querySelector('.loading').setAttribute('style', 'display:none');;
+
 }
 
 function handleFileSelect(e) {
@@ -31,14 +34,37 @@ function handleFileSelect(e) {
     var files = e.target.files;
     var filesArr = Array.prototype.slice.call(files);
 
+    var checkProgress = function(count) {
+        if (filesArr.length === count) {
+            return true;
+        }
+        return false;
+    }
+
+    var counter = 0;
     filesArr.forEach(function(f) {
         if (!f.type.match("image.*")) {
             return;
         }
 
         var reader = new FileReader();
+        reader.onloadstart = function(e) {
+            var loader = document.querySelector('.loading');
+            var progress = checkProgress(counter);
+            if (!progress) {
+                loader.setAttribute('style', 'display:block');
+            }
+
+        }
         reader.onload = function(e) {
+            counter ++ 
+            var loader = document.querySelector('.loading');
+            var progress = checkProgress(counter);
+            if (progress) {
+                loader.setAttribute('style', 'display:none');
+            }
             var html = '<img src="' + e.target.result + '">';
+
             selDiv.innerHTML += thumbnailContainer(html, f.name);
         }
         reader.readAsDataURL(f);
