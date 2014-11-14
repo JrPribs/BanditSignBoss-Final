@@ -10,8 +10,8 @@ block content
 	div.well
 		ul.list-group
 			li.list-group-item.h3 Campaign created on #{campaign.createDate} @ #{campaign.createTime}
-			li.list-group-item.h3 Campaign created by: #{campaign.author}
-			li.list-group-item.h3 Photos currently in campaign: #{photoCount}
+			li.list-group-item.h3 Campaign created by: #{campaign.user.name}
+			li.list-group-item.h3 Photos currently in campaign: #{campaign.photoCount}
 	if campaign.photos
 		for photo in campaign.photos
 			li.pull-left

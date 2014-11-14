@@ -7,7 +7,7 @@ var stormpath = require('express-stormpath');
 var _ = require('lodash')
 var Firebase = require('firebase');
 
-router.get('/:campaign', stormpath.loginRequired, function(req, res) {
+router.get('/:campaignId/upload', stormpath.loginRequired, function(req, res) {
     var campaign = req.param('campaign');
     res.render("uploadPage", {
         title: "Bandit Sign Boss Photo Uploader",
@@ -15,7 +15,7 @@ router.get('/:campaign', stormpath.loginRequired, function(req, res) {
     });
 });
 
-router.post("/:campaign", stormpath.loginRequired, function(req, res, next) {
+router.post("/:campaignId/upload", stormpath.loginRequired, function(req, res, next) {
 
     function gatherImages(files, callback) {
 
@@ -117,7 +117,7 @@ router.post("/:campaign", stormpath.loginRequired, function(req, res, next) {
 
         gatherImages(req.files.imageFiles, function(uploads) {
             processImages(uploads, function(finalImages) {
-                var campaign = req.param('campaign');
+                var campaign = req.param('campaignId');
                 var user = res.locals.user.username;
                 var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user + '/campaigns/' + campaign);
                 var campaignPhotos = campaignRef.child('photos');
