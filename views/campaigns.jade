@@ -19,6 +19,7 @@ block content
                 a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo") View Existing Campaign
         div#collapseTwo.panel-collapse.collapse.in(role="tabpanel" aria-labelledby="headingTwo")
             div.panel-body
-                ul
+                ul.list-group
                 each campaign in campaigns
-                    li #{campaign.title}
+                    li.list-group-item
+                        a(href='/uploads?name=#{campaign.title}') #{campaign.title}
