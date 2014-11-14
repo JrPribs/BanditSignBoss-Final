@@ -28,13 +28,6 @@ footer {
 li.pull-left {
     list-style: none;
 }
-<<<<<<< HEAD
-
-/* upload page */
-#selectedFiles label {
-padding: 6px 5px 3px 5px;
-border: 1px solid #000;
-=======
 .loading {
   position: fixed;
   z-index: 999;
@@ -152,5 +145,4 @@ border: 1px solid #000;
     -o-transform: rotate(360deg);
     transform: rotate(360deg);
   }
->>>>>>> 11f3185681dc7d4d979b4825d50c2bb5eff83055
 }
