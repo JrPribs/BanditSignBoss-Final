@@ -1,25 +1,25 @@
 extends layout
 
 block content
-  h1= title
-  div.panel-group#accordion(role="tablist" aria-multiselectable="true")
-     div.panel.panel-default
-        div.panel-heading#headingOne(role="tab")
-            h4.panel-title
-                a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Create a new campaign
-        div#collapseOne.panel-collapse.collapse.in(role="tabpanel" aria-labelledby="headingOne")
-            div.panel-body
-                form.form-inline(method="post" action="/newCampaign" role="form")
-                    label.h4(for="campaignTitle") Campaign Title: 
-                    input(type="text" name="campaignTitle")
-                    input.btn.btn-primary(type='submit')
-    div.panel.panel-default
-        div.panel-heading#headingTwo(role="tab")
-            h4.panel-title
-                a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo") View Existing Campaign
-        div#collapseTwo.panel-collapse.collapse.in(role="tabpanel" aria-labelledby="headingTwo")
-            div.panel-body
-                ul.list-group
-                each campaign in campaigns
-                    li.list-group-item
-                        a(href='/uploads?name=#{campaign.title}') #{campaign.title}
+    h1= title
+    div.panel-group#accordion.col-lg-6(role="tablist" aria-multiselectable="true")
+        div.panel.panel-default
+            div.panel-heading#headingOne(role="tab")
+                h4.panel-title
+                    a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Create a new campaign
+            div#collapseOne.panel-collapse.collapse.in(role="tabpanel" aria-labelledby="headingOne")
+                div.panel-body
+                    form.form-inline(method="post" action="/newCampaign" role="form")
+                        label.h4(for="campaignTitle") Campaign Title: 
+                        input(type="text" name="campaignTitle")
+                        input.btn.btn-primary(type='submit')
+        div.panel.panel-default
+            div.panel-heading#headingTwo(role="tab")
+                h4.panel-title
+                    a(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo") View Existing Campaign
+            div#collapseTwo.panel-collapse.collapse.in(role="tabpanel" aria-labelledby="headingTwo")
+                div.panel-body
+                    ul.list-group
+                    each campaign in campaigns
+                        li.list-group-item
+                            a(href='/campaign/#{campaign.id}' ) #{campaign.title}

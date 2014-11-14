@@ -15,8 +15,8 @@ a {
     padding-right: 1em;
 }
 footer {
+  clear: left;
     margin-top: 1em;
-    position: absolute;
     bottom: 0;
 }
 #map-canvas {

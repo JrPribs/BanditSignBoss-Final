@@ -7,14 +7,15 @@ var stormpath = require('express-stormpath');
 var _ = require('lodash')
 var Firebase = require('firebase');
 
-router.get('/', stormpath.loginRequired, function(req, res) {
+router.get('/:campaign', stormpath.loginRequired, function(req, res) {
+    var campaign = req.param('campaign');
     res.render("uploadPage", {
         title: "Bandit Sign Boss Photo Uploader",
-        campaign: req.query.name
+        campaign: campaign
     });
 });
 
-router.post("/", stormpath.loginRequired, function(req, res, next) {
+router.post("/:campaign", stormpath.loginRequired, function(req, res, next) {
 
     function gatherImages(files, callback) {
 
@@ -110,37 +111,30 @@ router.post("/", stormpath.loginRequired, function(req, res, next) {
     }
 
     if (req.files) {
-        console.log(req);
-        console.log(util.inspect(req.files));
         if (req.files.size === 0) {
             return next(new Error("Why didn't you select a file?"));
         }
 
         gatherImages(req.files.imageFiles, function(uploads) {
             processImages(uploads, function(finalImages) {
-                var campaign = req.query.name.replace('%20', ' ');
+                var campaign = req.param('campaign');
                 var user = res.locals.user.username;
-                var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user + '/campaigns');
-                campaignRef.orderByChild('title').equalTo(campaign).on('value', function(snapshot) {
-                    var campKey = Object.keys(snapshot.val())[0];
-                    var thisCampaign = campaignRef.child(campKey);
-                    thisCampaign.update({
-                        photos: finalImages
-                    }, function(err) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            res.render("uploadMapPage", {
-                                title: "File(s) Uploaded Successfully!",
-                                files: finalImages,
-                                scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
-                            });
-                        }
-                    });
+                var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user + '/campaigns/' + campaign);
+                var campaignPhotos = campaignRef.child('photos');
+                var count = 0;
+                finalImages.forEach(function(image) {
+                    campaignPhotos.push(image);
+                    count++;
+                    if (finalImages.length === count) {
+                        res.render("uploadMapPage", {
+                            title: "File(s) Uploaded Successfully!",
+                            files: finalImages,
+                            scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
+                        });
+                    }
                 });
             });
         });
-
 
     }
 

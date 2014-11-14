@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1 #{campaign.title} Details
+	div.well
+		ul.list-group
+			li.list-group-item Campaign created by: #{campaign.author}
+		for photo in campaign.photos
+			li.pull-left
+					div.thumbnail
+						img.points(src="/images/#{photo.file}" width="200px")
+						div #{photo.caption}
