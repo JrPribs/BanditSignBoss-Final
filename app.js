@@ -8,7 +8,7 @@ var index = require('./routes/index');
 var uploads = require('./routes/uploads');
 var dashboard = require('./routes/dashboard');
 var campaigns = require('./routes/campaigns');
-var campaign = require('./routes/campaign');
+var campaign = require('./routes/campaignDetails');
 var newCampaign = require('./routes/newCampaign');
 var app = express();
 
@@ -41,7 +41,7 @@ app.use(stormpath.init(app, {
 }));
 
 app.use('/', index);
-app.use('/uploads', uploads);
+app.use('/campaign/:campaignId/upload', uploads);
 app.use('/dashboard', dashboard);
 app.use('/newCampaign', newCampaign);
 app.use('/campaigns', campaigns);

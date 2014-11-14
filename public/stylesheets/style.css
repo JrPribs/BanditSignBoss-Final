@@ -19,14 +19,14 @@ footer {
     margin-top: 1em;
     bottom: 0;
 }
-#upload-button{
+.campaign-button{
     margin: 5px 5px 5px 10px;
     border-radius: 3px 3px;
     border: 1px solid #000;
     background: rgb(80,100,255);
     color: #fff;
 }
-#upload-button:hover{
+.campaign-button:hover{
   background: rgb(180,200,255);
   color: #000;
 }

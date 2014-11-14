@@ -1,16 +1,20 @@
 extends layout
 
 block content
-	div.row
+	div.page-header
 		h1 #{campaign.title} Details
-			a#upload-button.btn(href="/uploads/#{campaignId}") Upload Photo(s)
+			div.pull-right
+				a.campaign-button.btn(href="/campaign/#{campaignId}/upload") Upload Photo(s)
+				if campaign.photos
+					a.campaign-button.btn(href="/campaign/#{campaignId}/view-map") View Campaign Map
 	div.well
 		ul.list-group
+			li.list-group-item.h3 Campaign created on #{campaign.createDate} @ #{campaign.createTime}
 			li.list-group-item.h3 Campaign created by: #{campaign.author}
 			li.list-group-item.h3 Photos currently in campaign: #{photoCount}
-		if campaign.photos
-			for photo in campaign.photos
-				li.pull-left
-						div.thumbnail
-							img.points(src="/images/#{photo.file}" width="200px")
-							div #{photo.caption}
+	if campaign.photos
+		for photo in campaign.photos
+			li.pull-left
+					div.thumbnail
+						img.points(src="/images/#{photo.file}" width="200px")
+						div #{photo.caption}
