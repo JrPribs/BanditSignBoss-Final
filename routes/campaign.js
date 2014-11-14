@@ -10,9 +10,11 @@ router.get('/:campaignId', stormpath.loginRequired, function(req, res) {
     var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user + '/campaigns/' + campaignId);
     campaignRef.on("value", function(snapshot) {
         var campaignData = snapshot.val();
+        var photoCount = Object.keys(campaignData.photos).length;
         res.render('campaignDetails', {
         	user: user,
-            campaign: campaignData
+            campaign: campaignData,
+            photoCount: photoCount
         });
     });
 });

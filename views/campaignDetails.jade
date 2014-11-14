@@ -4,7 +4,8 @@ block content
 	h1 #{campaign.title} Details
 	div.well
 		ul.list-group
-			li.list-group-item Campaign created by: #{campaign.author}
+			li.list-group-item.h3 Campaign created by: #{campaign.author}
+			li.list-group-item.h3 Photos currently in campaign: #{photoCount}
 		for photo in campaign.photos
 			li.pull-left
 					div.thumbnail
