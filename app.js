@@ -7,6 +7,8 @@ var multer = require('multer');
 var index = require('./routes/index');
 var uploads = require('./routes/uploads');
 var dashboard = require('./routes/dashboard');
+var campaigns = require('./routes/campaigns');
+var newCampaign = require('./routes/newCampaign');
 var app = express();
 
 // view engine setup
@@ -40,6 +42,8 @@ app.use(stormpath.init(app, {
 app.use('/', index);
 app.use('/uploads', uploads);
 app.use('/dashboard', dashboard);
+app.use('/newCampaign', newCampaign);
+app.use('/campaigns', campaigns);
 
 // error handlers
 app.use(function(req, res, next) {
