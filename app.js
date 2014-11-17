@@ -6,6 +6,7 @@ var multer = require('multer');
 
 var index = require('./routes/index');
 var uploads = require('./routes/uploads');
+var upload = require('./routes/upload');
 var dashboard = require('./routes/dashboard');
 var campaigns = require('./routes/campaigns');
 var campaign = require('./routes/campaignDetails');
@@ -42,6 +43,7 @@ app.use(stormpath.init(app, {
 
 app.use('/', index);
 app.use('/upload', uploads);
+app.use('/uploaded', upload);
 app.use('/dashboard', dashboard);
 app.use('/newCampaign', newCampaign);
 app.use('/campaigns', campaigns);

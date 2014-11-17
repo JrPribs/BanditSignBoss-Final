@@ -3,7 +3,7 @@ extends layout
 block content
 	h1= title
 	div.loading
-	form#fileUpload.form-inline(method="post" action="/upload/#{campaignId}" enctype="multipart/form-data" role='form')
+	form#fileUpload.form-inline(method="post" action="/uploaded/#{campaignId}" enctype="multipart/form-data" role='form')
 		.form-group
 			input#imageFiles.form-control(type="file" name="imageFiles" accept="image/*" multiple)
 		.form-group

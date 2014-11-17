@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        width: 95%;
+        margin: 0px;
+        padding: 0px
+      }
+      #ctrl-box{
+      	position: absolute;
+      	right: 0;
+      	top: 20px;
+      	background: ghostwhite;
+      	width: 10%;
+      	padding: 10px;
+      }
+      #add-marker{
+      	padding: 10px;
+      	border: 1px solid #000;
+      	border-radius: 3px;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="/Users/jpribesh/Desktop/Code/BanditSignBoss/public/javascripts/buildRoute.js"> </script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+    <div id="ctrl-box">
+    	<a id="add-marker" href="#" data-on="on">Add Marker</a>
+  </body>
+</html>

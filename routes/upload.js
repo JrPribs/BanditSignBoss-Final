@@ -7,14 +7,6 @@ var stormpath = require('express-stormpath');
 var _ = require('lodash')
 var Firebase = require('firebase');
 
-router.get('/:campaignId', stormpath.loginRequired, function(req, res) {
-    var campaignId = req.param('campaignId');
-    res.render("uploadPage", {
-        title: "Bandit Sign Boss Photo Uploader",
-        campaignId: campaignId
-    });
-});
-
 router.post("/:campaignId", stormpath.loginRequired, function(req, res, next) {
     function gatherImages(files, callback) {
 
@@ -109,6 +101,17 @@ router.post("/:campaignId", stormpath.loginRequired, function(req, res, next) {
         });
     }
 
+    function saveImageInfo(finalImages, callback) {
+        var campaignId = req.param('campaignId');
+        var user = res.locals.user;
+        var count = 0;
+        var campaignPhotosRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user.username + '/campaigns/' + campaignId + '/photos');
+        finalImages.forEach(function(image) {
+            campaignPhotosRef.push(image);
+        });
+        callback(finalImages);
+    }
+
     if (req.files) {
         if (req.files.size === 0) {
             return next(new Error("Why didn't you select a file?"));
@@ -116,18 +119,15 @@ router.post("/:campaignId", stormpath.loginRequired, function(req, res, next) {
 
         gatherImages(req.files.imageFiles, function(uploads) {
             processImages(uploads, function(finalImages) {
-                var campaignId = req.param('campaignId');
-                var user = res.locals.user.username;
-                var count = 0;
-                finalImages.forEach(function(image) {
-                    var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user + '/campaigns/' + campaignId + '/photos');
-                    campaignRef.push(image);
-                });
-                res.render("uploadMapPage", {
-                    title: "File(s) Uploaded Successfully!",
-                    files: finalImages,
-                    campaignId: campaignId,
-                    scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
+                saveImageInfo(finalImages, function(finalImages) {
+                    var campaignId = req.param('campaignId');
+                    console.log(res.req.next);
+                    res.render("uploadMapPage", {
+                        title: "File(s) Uploaded Successfully!",
+                        files: finalImages,
+                        campaignId: campaignId,
+                        scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
+                    });
                 });
             });
         });
