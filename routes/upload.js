@@ -22,14 +22,13 @@ function processData(req, res, next) {
 
             fs.exists(file.path, function(exists) {
                 if (exists) {
-                    var name = req.body[file.originalname];
-                    console.log(name);
+                    var caption = req.body[file.originalname];
                     var path = file.path;
                     var upFile = file.name;
                     uploads.push({
                         file: upFile,
                         imgPath: path,
-                        caption: name || 'no comment'
+                        caption: caption || 'no comment'
                     });
                     count++;
                 }
@@ -63,9 +62,7 @@ function processData(req, res, next) {
                     lng: lng
                 };
                 geoCoords = coordinate.lat + ' ' + coordinate.lng;
-                console.log(geoCoords);
             }
-
             callback(geoCoords);
         });
     }
@@ -129,7 +126,7 @@ function saveImageInfo(req, res, next) {
             if (err) {
                 console.log(err);
             } else {
-                console.log('Data saved successfully: ' + image);
+                console.log('Data saved successfully for : ' + image.file);
                 count++;
                 if (req.finalImages.length === count) {
                     next();

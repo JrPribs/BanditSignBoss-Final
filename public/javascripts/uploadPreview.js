@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", init, false);
 
 
 function thumbnailContainer(thumbnail, caption) {
-    caption = caption || ''
+    caption = caption;
     return ['<div class="col-xs-4 col-md-3">',
         '<span class="thumbnail">',
         thumbnail,
@@ -64,7 +64,6 @@ function handleFileSelect(e) {
                 loader.setAttribute('style', 'display:none');
             }
             var html = '<img src="' + e.target.result + '">';
-
             selDiv.innerHTML += thumbnailContainer(html, f.name);
         }
         reader.readAsDataURL(f);
