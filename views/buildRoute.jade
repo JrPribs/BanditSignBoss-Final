@@ -1,0 +1,9 @@
+extends layout
+block content
+    div#map-canvas-route
+    div#points-panel.panel.panel-default
+        div.panel-heading Route Points
+        ul#points-list.list-group
+        form#points(method="post" action="/campaign/#{campaignId}/routes/#{routeId}/view-route" role="form")
+            input#point-count(type="hidden" value="0" name="pointCount")
+            input.btn.btn-default(type="submit" value="Build Route")

@@ -8,10 +8,14 @@ block content
 				if campaign.photos
 					a.campaign-button.btn(href="/campaign/#{campaignId}/view-map") View Campaign Map
 	div.well
-		ul.list-group
+		ul.list-group.pull-left
 			li.list-group-item.h3 Campaign created on #{campaign.createDate} @ #{campaign.createTime}
 			li.list-group-item.h3 Campaign created by: #{campaign.user.name}
 			li.list-group-item.h3 Photos currently in campaign: #{campaign.photoCount}
+		if campaign.routes
+			ul.list-group.pull-right
+			for route in campaign.routes
+				li.list-group-item.h3 route.title
 	if campaign.photos
 		for photo in campaign.photos
 			li.pull-left
