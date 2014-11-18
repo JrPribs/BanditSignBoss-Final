@@ -7,7 +7,8 @@ var stormpath = require('express-stormpath');
 var _ = require('lodash')
 var Firebase = require('firebase');
 
-router.post("/:campaignId", stormpath.loginRequired, function(req, res, next) {
+function processData(req, res, next) {
+
     function gatherImages(files, callback) {
 
         //accept single image upload
@@ -101,16 +102,6 @@ router.post("/:campaignId", stormpath.loginRequired, function(req, res, next) {
         });
     }
 
-    function saveImageInfo(finalImages, callback) {
-        var campaignId = req.param('campaignId');
-        var user = res.locals.user;
-        var count = 0;
-        var campaignPhotosRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user.username + '/campaigns/' + campaignId + '/photos');
-        finalImages.forEach(function(image) {
-            campaignPhotosRef.push(image);
-        });
-        callback(finalImages);
-    }
 
     if (req.files) {
         if (req.files.size === 0) {
@@ -119,20 +110,46 @@ router.post("/:campaignId", stormpath.loginRequired, function(req, res, next) {
 
         gatherImages(req.files.imageFiles, function(uploads) {
             processImages(uploads, function(finalImages) {
-                saveImageInfo(finalImages, function(finalImages) {
-                    var campaignId = req.param('campaignId');
-                    console.log(res.req.next);
-                    res.render("uploadMapPage", {
-                        title: "File(s) Uploaded Successfully!",
-                        files: finalImages,
-                        campaignId: campaignId,
-                        scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
-                    });
-                });
+                req.finalImages = finalImages;
+                req.campaignId = req.param('campaignId');
+                next();
             });
         });
-
     }
+
+}
+
+function saveImageInfo(req, res, next) {
+    var user = res.locals.user;
+    var count = 0;
+    var campaignPhotosRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user.username + '/campaigns/' + req.campaignId + '/photos');
+    var finalImages = req.finalImages;
+    finalImages.forEach(function(image) {
+        campaignPhotosRef.push(image, function(err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Data saved successfully: ' + image);
+                count++;
+                if (req.finalImages.length === count) {
+                    next();
+                }
+            }
+        });
+    });
+
+}
+
+
+
+
+router.post("/:campaignId", stormpath.loginRequired, processData, saveImageInfo, function(req, res) {
+    res.render("uploadMapPage", {
+        title: "File(s) Uploaded Successfully!",
+        files: req.finalImages,
+        campaignId: req.campaignId,
+        scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
+    });
 
 });
 

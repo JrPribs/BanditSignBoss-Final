@@ -3,7 +3,7 @@ var router = express.Router();
 var stormpath = require('express-stormpath');
 var _ = require('lodash');
 var Firebase = require('firebase');
-var dbRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users');
+var dbRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore');
 
 function formatDate(epochDate) {
     var d = new Date(epochDate);
@@ -30,8 +30,8 @@ function formatTime(epochDate) {
 router.post('/', stormpath.loginRequired, function(req, res) {
     
     function getData(campaignId) {
-        var thisCampaign = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + res.locals.user.username + '/campaigns/' + campaignId);
-        thisCampaign.on("value", function(snapshot) {
+        var thisCampaign = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + res.locals.user.username + '/campaigns/' + campaignId);
+        thisCampaign.once("value", function(snapshot) {
             var campaignData = snapshot.val();
             res.render("campaignDetails", {
                 title: req.body.campaignTitle,

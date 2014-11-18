@@ -6,8 +6,8 @@ var Firebase = require('firebase');
 
 router.get('/', stormpath.loginRequired, function(req, res) {
     var user = res.locals.user.username;
-    var userDataRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/users/' + user + '/campaigns');
-    userDataRef.on("value", function(snapshot) {
+    var userDataRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user + '/campaigns');
+    userDataRef.once("value", function(snapshot) {
         var camps = snapshot.val();
         if (camps !== null) {
             var keys = Object.keys(camps);
