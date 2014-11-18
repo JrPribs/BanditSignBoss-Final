@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	div.containter
+		div.col-xs-6.col-md-8
+			div#map-canvas
+		div.col-xs-4.col-md-4
+			ul
+			each photo in campaign.photos
+				li.pull-left
+					div.thumbnail
+						img.points(src="/images/#{photo.file}" data-file="#{photo.file}" data-coords="#{photo.coords}" width="100px" height="100px")
+						div #{photo.caption}
