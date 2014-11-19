@@ -34,15 +34,20 @@ router.get('/:campaignId/view-map', stormpath.loginRequired, function(req, res) 
     });
 });
 
-router.get('/:campaignId/routes/new-route', stormpath.loginRequired, function(req, res) {
+router.post('/:campaignId/routes/new-route', stormpath.loginRequired, function(req, res) {
     var user = res.locals.user.username;
     var campaignId = req.param('campaignId');
+    console.log(req.body);
+    var routeTitle = req.body['route-title'];
     var routesRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user + '/campaigns/' + campaignId + '/routes');
-    var newRoute = routesRef.push();
+    var newRoute = routesRef.push({title: routeTitle});
     res.render('buildRoute', {
+        title: routeTitle + ' Route',
         user: user,
         campaignId: campaignId,
+        routeTitle: routeTitle,
         routeId: newRoute.key(),
+        styles: ['/stylesheets/routes.css'],
         scripts: ['http://code.jquery.com/jquery-1.11.0.min.js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/buildRoute.js']
     });
 });
@@ -56,12 +61,14 @@ router.post('/:campaignId/routes/:routeId/view-route', stormpath.loginRequired, 
     for(var i=1; i<=pointCount; i++){
         points.push(req.body[i]);
     }
-    console.log(points);
+    var routeRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user + '/campaigns/' + campaignId + '/routes/' + routeId);
+    routeRef.set({points: points});
     res.render('viewRoute', {
         user: user,
         campaignId: campaignId,
         routeId: routeId,
         points: points,
+        styles: ['/stylesheets/routes.css'],
         scripts: ['http://code.jquery.com/jquery-1.11.0.min.js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/viewRoute.js']
     });
 });

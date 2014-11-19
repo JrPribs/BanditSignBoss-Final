@@ -1,0 +1,21 @@
+/* route build page */
+
+html, body, #map-canvas-route {
+    left: 1%;
+    top: 8%;
+    height: 100%;
+    width: 90%;
+    margin: 0px;
+    padding: 0px
+}
+#points-panel {
+    position: absolute;
+    right: .75%;
+    top: 10%;
+    background: ghostwhite;
+    width: 25%;
+    padding: 10px;
+}
+#points-panel li span {
+    margin-right: 5%;
+}

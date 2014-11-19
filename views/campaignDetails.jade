@@ -5,20 +5,33 @@ block content
 		h1 #{campaign.title} Details
 			div.pull-right
 				a.campaign-button.btn(href="/upload/#{campaignId}") Upload Photo(s)
+				if campaign.routes
+					a.campaign-button.btn(href="/campaign/#{campaignId}/routes/new-route") Create New Route
 				if campaign.photos
 					a.campaign-button.btn(href="/campaign/#{campaignId}/view-map") View Campaign Map
-	div.well
-		ul.list-group.pull-left
+		ul.list-group.col-md-6
 			li.list-group-item.h3 Campaign created on #{campaign.createDate} @ #{campaign.createTime}
 			li.list-group-item.h3 Campaign created by: #{campaign.user.name}
 			li.list-group-item.h3 Photos currently in campaign: #{campaign.photoCount}
-		if campaign.routes
-			ul.list-group.pull-right
-			for route in campaign.routes
-				li.list-group-item.h3 route.title
-	if campaign.photos
-		for photo in campaign.photos
-			li.pull-left
+		div#routes.panel.panel-default.col-md-6
+			div.panel-heading Routes
+			if campaign.routes				
+				div.panel-body
+					ul.list-group
+					for route in campaign.routes
+						li.list-group-item.h4 #{route.title}
+							a.campaign-button.btn(href="/campaign/#{campaignId}/routes/#{routeId}/view-route") View Route Map
+			else
+				div.panel-body.h3 There are no routes for this campaign!
+					br
+					form(method="post" action="/campaign/#{campaignId}/routes/new-route" role="form")
+						label.h3(for="route-title") New route title: 
+						input(type="text" name="route-title")
+						input#route-button.campaign-button.btn(type="submit" value="Create New Route") 
+		ul.col-md-12
+		if campaign.photos
+			for photo in campaign.photos
+				li.pull-left
 					div.thumbnail
 						img.points(src="/images/#{photo.file}" width="200px")
 						div #{photo.caption}

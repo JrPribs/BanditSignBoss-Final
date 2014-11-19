@@ -7,7 +7,7 @@ block content
             div.panel-heading#headingOne(role="tab")
                 h4.panel-title
                     a(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne") Create a new campaign
-            div#collapseOne.panel-collapse.collapse.in(role="tabpanel" aria-labelledby="headingOne")
+            div#collapseOne.panel-collapse.collapse(role="tabpanel" aria-labelledby="headingOne")
                 div.panel-body
                     form.form-inline(method="post" action="/newCampaign" role="form")
                         label.h4(for="campaignTitle") Campaign Title: 

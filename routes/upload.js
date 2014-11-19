@@ -119,6 +119,13 @@ function processData(req, res, next) {
 function saveImageInfo(req, res, next) {
     var user = res.locals.user;
     var count = 0;
+    var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user.username + '/campaigns/' + req.campaignId);
+    var imageCount = req.finalImages.length;
+    campaignRef.once('value', function(snapshot){
+        var campaign = snapshot.val();
+        var currentCount = campaign.photoCount;
+        campaignRef.update({photoCount: currentCount + imageCount});    
+    });
     var campaignPhotosRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user.username + '/campaigns/' + req.campaignId + '/photos');
     var finalImages = req.finalImages;
     finalImages.forEach(function(image) {
