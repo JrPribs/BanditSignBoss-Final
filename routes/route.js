@@ -69,7 +69,21 @@ router.post('/:routeId/view', stormpath.loginRequired, function(req, res) {
         res.render('viewRoute', {
             user: user,
             route: routeData,
-            points: points,
+            styles: ['/stylesheets/routes.css'],
+            scripts: ['http://code.jquery.com/jquery-1.11.0.min.js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/viewRoute.js']
+        });
+    });
+});
+
+router.get('/:routeId/view', stormpath.loginRequired, function(req, res) {
+    var user = res.locals.user.username;
+    var routeId = req.param('routeId');
+    var routeRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user + '/routes/' + routeId);
+    routeRef.once('value', function(snapshot) {
+        var routeData = snapshot.val();
+        res.render('viewRoute', {
+            user: user,
+            route: routeData,
             styles: ['/stylesheets/routes.css'],
             scripts: ['http://code.jquery.com/jquery-1.11.0.min.js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/viewRoute.js']
         });
