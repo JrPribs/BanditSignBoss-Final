@@ -1,9 +1,51 @@
 body {
     padding: 50px;
     font: 14px"Lucida Grande", Helvetica, Arial, sans-serif;
+    background: #1D1D1D;
+}
+h1 {
+    color: brown;
+    font-weight: bolder;
+}
+footer {
+    color: brown;
 }
 a {
     color: #00B7FF;
+}
+.panel-default>.panel-heading {
+    color: #fff;
+    background-color: brown;
+    border-color: #000;
+}
+.panel-default {
+    border-color: #000;
+}
+.panel-default>.panel-heading+.panel-collapse>.panel-body {
+    border-top-color: #000;
+    background: #333;
+    color: #fff;
+}
+.panel-collapse.collapse>.panel-body, .panel-collapse.collapse.in>.panel-body, .panel-collapse.collapsing>.panel-body{
+    box-shadow: inset 2px 2px 8px rgba(0,0,0,.6);
+}
+#main-panel.panel-default{
+    border: none;
+    box-shadow: none;
+}
+#main-panel.panel, #main-panel>.panel-heading {
+    background: #1D1D1D;
+}
+#main-panel>.panel-heading>.panel-title {
+    background: #1D1D1D;
+    font-size: 32px;
+    font-weight:bold;
+}
+label {
+    margin-right: 10px;
+}
+input {
+    color:#000;
 }
 .navbar .btn {
     margin: 5px 5px 5px 0;
@@ -13,6 +55,7 @@ a {
 }
 .navbar {
     padding-right: 1em;
+    box-shadow: 0 1px 10px #111;
 }
 footer {
     clear: left;
@@ -156,10 +199,9 @@ li.pull-left {
         transform: rotate(360deg);
     }
 }
-
-#route-button{
-  margin-bottom: 10px;
+#route-button {
+    margin-bottom: 10px;
 }
 div#routes {
-  margin-top: 21px;
+    margin-top: 21px;
 }

@@ -8,8 +8,8 @@ var index = require('./routes/index');
 var uploads = require('./routes/uploads');
 var upload = require('./routes/upload');
 var dashboard = require('./routes/dashboard');
-var campaigns = require('./routes/campaigns');
 var campaign = require('./routes/campaignDetails');
+var route = require('./routes/route')
 var newCampaign = require('./routes/newCampaign');
 var app = express();
 
@@ -46,8 +46,8 @@ app.use('/upload', uploads);
 app.use('/uploaded', upload);
 app.use('/dashboard', dashboard);
 app.use('/newCampaign', newCampaign);
-app.use('/campaigns', campaigns);
 app.use('/campaign', campaign);
+app.use('/route', route);
 
 // error handlers
 app.use(function(req, res, next) {

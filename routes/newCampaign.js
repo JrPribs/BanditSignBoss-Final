@@ -3,7 +3,6 @@ var router = express.Router();
 var stormpath = require('express-stormpath');
 var _ = require('lodash');
 var Firebase = require('firebase');
-var dbRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore');
 
 function formatDate(epochDate) {
     var d = new Date(epochDate);
@@ -35,16 +34,13 @@ router.post('/', stormpath.loginRequired, function(req, res) {
             var campaignData = snapshot.val();
             res.render("campaignDetails", {
                 title: req.body.campaignTitle,
-                campaign: campaignData,
-                campaignId: campaignId,
+                campaign: campaignData
             });
         });
     }
 
     var user = res.locals.user.username;
-    var userRef = dbRef.child(user);
-    var camps = userRef.child('campaigns');
-    var campaignId = '';
+    var camps = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user + '/campaigns');
     var newCampaign = camps.push({
         title: req.body.campaignTitle,
         createDate: formatDate(Date.now()),
@@ -60,8 +56,8 @@ router.post('/', stormpath.loginRequired, function(req, res) {
         if (err) {
             console.log("Data didn't save! :" + err);
         } else {
-            campaignId = newCampaign.key();
-
+            var campaignId = newCampaign.key();
+            camps.child(campaignId).update({id: campaignId});
             getData(campaignId);
         }
     });

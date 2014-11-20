@@ -5,29 +5,29 @@ var _ = require('lodash');
 var Firebase = require('firebase');
 
 router.get('/', stormpath.loginRequired, function(req, res) {
-    var user = res.locals.user.username;
-    var userDataRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user + '/campaigns');
+    var user = res.locals.user;
+    var userDataRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user.username);
     userDataRef.once("value", function(snapshot) {
-        var camps = snapshot.val();
-        if (camps !== null) {
-            var keys = Object.keys(camps);
-            var campaigns = [];
+        var acctData = snapshot.val()
+        var campaigns = acctData.campaigns;
+        if (campaigns !== null) {
+            var keys = Object.keys(campaigns);
             var count = 0;
             keys.forEach(function(key) {
-                camps[key].id = key;
+                campaigns[key].id = key;
                 count++;
                 if (keys.length === count) {
-                    res.render("campaigns", {
-                        title: "Campaigns for " + user,
-                        user: user,
-                        campaigns: camps
+                    res.render("dashboard", {
+                        title: user.username + "'s DashBoard",
+                        user: user.username,
+                        campaigns: campaigns
                     });
                 }
             });
         } else {
-            res.render("campaigns", {
-                title: "Campaigns for " + user,
-                user: user
+            res.render("dashboard", {
+                title: user.username + "'s DashBoard",
+                user: user.username
             });
         }
     });

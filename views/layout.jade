@@ -16,10 +16,11 @@ html
             script(src=s)
   body
     nav.navbar.navbar-default.navbar-fixed-top
+        div.navbar-header
+            a.navbar-brand(href="/") Bandit Sign Boss
         if user
             a.btn.btn-default(href='/logout') Log Out
-            a.btn.btn-default(href='/dashboard') My Account
-            a.btn.btn-default(href='/campaigns') Campaigns
+            a.btn.btn-default(href='/dashboard') Dashboard
         else
             a.btn.btn-default(href='/login') Login
             a.btn.btn-default(href='/register') Register
@@ -28,4 +29,4 @@ html
     block content
 
     footer
-        p Created by Clockwork Development
+        p &copy; Apex Applications 
