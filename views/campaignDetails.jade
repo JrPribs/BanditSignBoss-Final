@@ -4,7 +4,7 @@ block content
 	div.page-header
 		h1 #{campaign.title} Details
 			div.pull-right
-				a.campaign-button.btn(href="/upload/#{campaignId}") Upload Photo(s)
+				a.campaign-button.btn(href="/upload/#{campaign.id}") Upload Photo(s)
 				if campaign.routes
 					a.campaign-button.btn(href="/campaign/#{campaignId}/routes/new-route") Create New Route
 				if campaign.photos

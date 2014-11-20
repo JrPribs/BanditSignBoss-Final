@@ -83,6 +83,7 @@ li.pull-left {
     list-style: none;
 }
 .loading {
+    display: none;
     position: fixed;
     z-index: 999;
     height: 2em;

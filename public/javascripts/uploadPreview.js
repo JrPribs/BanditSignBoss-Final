@@ -1,6 +1,6 @@
 var selDiv = "";
 
-document.addEventListener("DOMContentLoaded", init, false);
+$(document).ready(init);
 
 
 function thumbnailContainer(thumbnail, caption) {
@@ -18,18 +18,17 @@ function thumbnailContainer(thumbnail, caption) {
 
 
 function init() {
-    document.querySelector('#imageFiles').addEventListener('change', handleFileSelect, false);
-    selDiv = document.querySelector("#selectedFiles");
-    document.querySelector('.loading').setAttribute('style', 'display:none');;
-
+    $('#imageFiles').change(handleFileSelect);
+    selDiv = $('#selectedFiles');
 }
 
 function handleFileSelect(e) {
     if (e.target.files.length > 0) {
-        document.querySelector('#upload').disabled = false;
+        $('#upload').prop("disabled", false);
+        $('.loading').show();
     }
     if (!e.target.files || !window.FileReader) return;
-    selDiv.innerHTML = "";
+    selDiv.html('');
 
     var files = e.target.files;
     var filesArr = Array.prototype.slice.call(files);
@@ -42,32 +41,26 @@ function handleFileSelect(e) {
     }
 
     var counter = 0;
-    filesArr.forEach(function(f) {
+
+    function loadFiles(f) {
         if (!f.type.match("image.*")) {
             return;
         }
-
         var reader = new FileReader();
-        reader.onloadstart = function(e) {
-            var loader = document.querySelector('.loading');
-            var progress = checkProgress(counter);
-            if (!progress) {
-                loader.setAttribute('style', 'display:block');
-            }
 
-        }
         reader.onload = function(e) {
-            counter ++ 
-            var loader = document.querySelector('.loading');
+            counter++;
+            var loader = $('.loading');
             var progress = checkProgress(counter);
             if (progress) {
-                loader.setAttribute('style', 'display:none');
+                loader.hide();
             }
             var html = '<img src="' + e.target.result + '">';
-            selDiv.innerHTML += thumbnailContainer(html, f.name);
+            selDiv.append(thumbnailContainer(html, f.name));
         }
         reader.readAsDataURL(f);
-    });
+    }
 
+    filesArr.forEach(loadFiles);
 
 }
