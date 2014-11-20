@@ -116,8 +116,34 @@ function processData(req, res, next) {
 
 }
 
-function resizeImages(req, res, next){
-    
+function resizeImages(req, res, next) {
+    var images = req.finalImages;
+    var count = 0;
+    images.forEach(function(image) {
+        var fullPath = image.imgPath.replace('.jpg', '-full.jpg');
+        var thumbPath = image.imgPath.replace('.jpg', '-thumb.jpg');
+        im.resize({
+            srcPath: './' + image.imgPath,
+            dstPath: './' + thumbPath,
+            width: 150
+        }, function(err, stdout, stderr) {
+            if (err) throw err;
+
+            im.resize({
+                srcPath: './' + image.imgPath,
+                dstPath: './' + fullPath,
+                width: 800
+            }, function(err, stdout, stderr) {
+                if (err) throw err;
+                image.thumb = thumbPath.replace('public/images/', '');
+                image.file = fullPath.replace('public/images/', '');
+                count++;
+                if (images.length === count) {
+                    next();
+                }
+            });
+        });
+    });
 }
 
 function saveImageInfo(req, res, next) {
@@ -153,7 +179,7 @@ function saveImageInfo(req, res, next) {
 
 
 
-router.post("/:campaignId", stormpath.loginRequired, processData, saveImageInfo, function(req, res) {
+router.post("/:campaignId", stormpath.loginRequired, processData, resizeImages, saveImageInfo, function(req, res) {
     var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + res.locals.user.username + '/campaigns/' + req.campaignId);
     campaignRef.once('value', function(snapshot) {
         var campaign = snapshot.val();

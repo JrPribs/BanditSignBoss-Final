@@ -9,5 +9,5 @@ block content
 			each photo in campaign.photos
 				li.pull-left
 					div.thumbnail
-						img.points(src="/images/#{photo.file}" data-file="#{photo.file}" data-coords="#{photo.coords}" width="100px" height="100px")
+						img.points(src="/images/#{photo.thumb}" data-coords="#{photo.coords}" width="100px" height="100px")
 						div #{photo.caption}

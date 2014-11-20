@@ -9,7 +9,6 @@ router.get('/', stormpath.loginRequired, function(req, res) {
     var campaigns = false;
     var routes = false;
     var userDataRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user.username);
-    console.log(userDataRef);
     userDataRef.once("value", function(snapshot) {
         var acctData = snapshot.val();
         if (acctData !== null) {

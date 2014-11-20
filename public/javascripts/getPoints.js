@@ -3,7 +3,7 @@ $(document).ready(function() {
         var points = [];
         $('img.points').each(function() {
             var loc = $(this).data('coords');
-            var file = $(this).data('file');
+            var file = $(this).attr('src');
             points.push({
                 coords: loc,
                 file: file
@@ -34,8 +34,8 @@ $(document).ready(function() {
             	return function() {
             		var current = marker.position.k + ' ' + marker.position.B.toFixed(6);
             		$('.points').css('border', 'none');
-            		$('img[data-coords="' + current + '"]').css('border', '5px solid #F00');
-            		infowindow.setContent('<img src="/images/' + points[i].file + '" width="100px" height="100px">');
+            		$('img[data-coords="' + current + '"]').parent().css('background-color', '#F00');
+            		infowindow.setContent('<img src="' + points[i].file + '" width="100px">');
             		infowindow.open(map, marker);
             	}
             })(marker, i));
@@ -64,7 +64,7 @@ $(document).ready(function() {
     var $overlay = $('<img style="display:none;width:100%;height:100%;position:absolute;top:0;left:0;">');
     $('body').append($overlay);
     $('.points').click(function(){
-    	var url = $(this).attr('src');
+    	var url = $(this).attr('src').replace('thumb', 'full');
     	$overlay.attr('src', url);
     	$overlay.show();
     });
