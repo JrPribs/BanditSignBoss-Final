@@ -21,6 +21,8 @@ html
         if user
             a.btn.btn-default(href='/logout') Log Out
             a.btn.btn-default(href='/dashboard') Dashboard
+            if view
+                a.btn.btn-default(href='/campaign/#{campaign.id}') Back to Campaign
         else
             a.btn.btn-default(href='/login') Login
             a.btn.btn-default(href='/register') Register

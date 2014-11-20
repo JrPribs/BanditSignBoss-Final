@@ -116,15 +116,21 @@ function processData(req, res, next) {
 
 }
 
+function resizeImages(req, res, next){
+    
+}
+
 function saveImageInfo(req, res, next) {
     var user = res.locals.user;
     var count = 0;
     var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user.username + '/campaigns/' + req.campaignId);
     var imageCount = req.finalImages.length;
-    campaignRef.once('value', function(snapshot){
+    campaignRef.once('value', function(snapshot) {
         var campaign = snapshot.val();
         var currentCount = campaign.photoCount;
-        campaignRef.update({photoCount: currentCount + imageCount});    
+        campaignRef.update({
+            photoCount: currentCount + imageCount
+        });
     });
     var campaignPhotosRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user.username + '/campaigns/' + req.campaignId + '/photos');
     var finalImages = req.finalImages;
@@ -148,11 +154,15 @@ function saveImageInfo(req, res, next) {
 
 
 router.post("/:campaignId", stormpath.loginRequired, processData, saveImageInfo, function(req, res) {
-    res.render("uploadMapPage", {
-        title: "File(s) Uploaded Successfully!",
-        files: req.finalImages,
-        campaignId: req.campaignId,
-        scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
+    var campaignRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + res.locals.user.username + '/campaigns/' + req.campaignId);
+    campaignRef.once('value', function(snapshot) {
+        var campaign = snapshot.val();
+        res.render("viewMap", {
+            title: "File(s) Uploaded Successfully!",
+            campaign: campaign,
+            view: true,
+            scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
+        });
     });
 
 });

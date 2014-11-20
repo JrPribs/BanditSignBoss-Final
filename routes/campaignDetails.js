@@ -27,7 +27,7 @@ router.get('/:campaignId/view-map', stormpath.loginRequired, function(req, res) 
         var campaignData = snapshot.val();
         res.render('viewMap', {
             user: user,
-            campaignId: campaignId,
+            view: true,
             campaign: campaignData,
             scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
         });
