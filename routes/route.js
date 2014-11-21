@@ -2,28 +2,7 @@ var express = require('express');
 var router = express.Router();
 var stormpath = require('express-stormpath');
 var Firebase = require('firebase');
-
-function formatDate(epochDate) {
-    var d = new Date(epochDate);
-    var year = d.getFullYear();
-    var month = d.getMonth() + 1;
-    var day = d.getDate();
-    var date = month + '-' + day + '-' + year;
-    return date;
-}
-
-function formatTime(epochDate) {
-    var d = new Date(epochDate);
-    var hr = d.getHours();
-    var ampm = (hr >= 12) ? "PM" : "AM";
-    var hr = (hr > 12) ? hr - 12 : hr;
-    var min = d.getMinutes();
-    if (min.toString().length == 1) {
-        min = '0' + min
-    }
-    var time = hr + ':' + min + ' ' + ampm;
-    return time;
-}
+var customDate = require('../custom_modules/dates');
 
 router.post('/new', stormpath.loginRequired, function(req, res) {
     var user = res.locals.user.username;
@@ -32,8 +11,8 @@ router.post('/new', stormpath.loginRequired, function(req, res) {
     var routesRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user + '/routes');
     var newRoute = routesRef.push({
         title: routeTitle,
-        date: formatDate(Date.now()),
-        time: formatTime(Date.now())
+        date: customDate.formatDate(Date.now()),
+        time: customDate.formatTime(Date.now())
     });
     var routeKey = newRoute.key();
     routesRef.child(routeKey).update({

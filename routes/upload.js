@@ -128,7 +128,6 @@ function resizeImages(req, res, next) {
             width: 150
         }, function(err, stdout, stderr) {
             if (err) throw err;
-
             im.resize({
                 srcPath: './' + image.imgPath,
                 dstPath: './' + fullPath,
