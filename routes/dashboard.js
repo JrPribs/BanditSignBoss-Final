@@ -5,14 +5,15 @@ var request = require('request');
 
 router.get('/', stormpath.loginRequired, function(req, res) {
     var user = res.locals.user;
+    var userUrl = res.locals.user.href.split('/');
+    var userId = userUrl[userUrl.length -1];
     delete user['apiKeys'];
     delete user['groupMemberships']
     delete user['applications']
     delete user['tenant']
     delete user['directory']
     delete user['providerData']
-    var userUrl = res.locals.user.href.split('/');
-    var userId = userUrl[userUrl.length -1];
+    delete user['href']
     var campaigns = false;
     var routes = false;
     var options = {
