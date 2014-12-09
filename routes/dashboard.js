@@ -1,26 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var stormpath = require('express-stormpath');
-var _ = require('lodash');
-var Firebase = require('firebase');
+var request = require('request');
 
 router.get('/', stormpath.loginRequired, function(req, res) {
     var user = res.locals.user;
+    var userUrl = res.locals.user.href.split('/');
+    var userId = userUrl[userUrl.length -1];
     var campaigns = false;
     var routes = false;
-    var userDataRef = new Firebase('https://vivid-fire-567.firebaseio.com/BSB/userStore/' + user.username);
-    userDataRef.once("value", function(snapshot) {
-        var acctData = snapshot.val();
-        if (acctData !== null) {
-            campaigns = acctData.campaigns;
-            routes = acctData.routes;
+    var options = {
+        uri: 'http://api.banditsignboss.com/api/dashboard/' + userId,
+        method: 'POST',
+        json: user
+    };
+    request(options, function(err, res, body){
+        if(!err & res.statusCode == 200 ){
+            res.render("dashboard", {
+                title: user.username + "'s Dashboard",
+                user: user.username,
+                campaigns: campaigns,
+                routes: routes
+            });
         }
-        res.render("dashboard", {
-            title: user.username + "'s Dashboard",
-            user: user.username,
-            campaigns: campaigns,
-            routes: routes
-        });
     });
 });
 
